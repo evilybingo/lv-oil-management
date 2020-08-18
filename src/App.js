@@ -5,26 +5,32 @@ import MenuComp from './menu'
 import { Layout, Breadcrumb } from 'antd'
 import { withRouter } from 'react-router'
 import RouterWrapper from './router'
+import CustomTabs from './tabs'
 import { BREAD_LIST } from './router/config'
 
 const { Header, Content, Footer, Sider } = Layout
 
 class AppRouter extends React.Component {
   state = {
-    collapsed: false
+    collapsed: false,
+    paneList: []
   }
 
   onCollapse = collapsed => {
     this.setState({ collapsed })
   }
-
+  getMenuItem = menuList => {
+ 
+    this.setState({
+      paneList:menuList
+    })
+  }
   render () {
     const { history } = this.props
     const pathname = history.location.pathname
-    
+
     return (
       <div className='App'>
-   
         <Layout style={{ minHeight: '100vh' }}>
           <Sider
             collapsible
@@ -32,7 +38,7 @@ class AppRouter extends React.Component {
             onCollapse={this.onCollapse}
           >
             <div className='logo' />
-            <MenuComp history={history} />
+            <MenuComp history={history} getMenuItem={this.getMenuItem} />
           </Sider>
           <Layout className='site-layout'>
             <Header className='site-layout-background'>
@@ -48,6 +54,11 @@ class AppRouter extends React.Component {
                   })}
               </Breadcrumb>
               <div className='site-layout-background'>
+                <CustomTabs
+                  paneList={this.state.paneList}
+                  history={history}
+                  pathname={pathname}
+                />
                 <RouterWrapper />
               </div>
             </Content>
@@ -61,4 +72,3 @@ class AppRouter extends React.Component {
   }
 }
 export default withRouter(AppRouter)
-

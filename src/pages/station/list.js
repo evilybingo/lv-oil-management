@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Table, Space, Button } from 'antd'
-import branchActions from '../../action/operation/branch'
+import { Table, Space } from 'antd'
+import { list } from '../../constants/city'
 import { CustomSearchForm } from '../../components'
-import { PlusOutlined } from '@ant-design/icons'
+//import { PlusOutlined } from '@ant-design/icons'
 
-class DriverOilCard extends Component {
+class StationList extends Component {
   state = {
     curPage: 1
   }
@@ -15,46 +14,61 @@ class DriverOilCard extends Component {
   onReset = () => {
     console.log(999)
   }
-  componentDidMount () {}
-  changePage = page => {
-    this.setState({
-      curPage: page
-    })
-  }
+  changeCity () {}
   render () {
     const columns = [
       {
-        title: '司机姓名',
+        title: '站点编号',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '手机号',
+        title: '站点名称',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '车牌号',
+        title: '所属供应商',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '类型',
+        title: '定位标注',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '自有油费',
+        title: '所属省市',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '外请油费',
+        title: '市区',
+        dataIndex: 'name',
+        key: 'name'
+      },
+      {
+        title: '详细地址',
+        dataIndex: 'name',
+        key: 'name'
+      },
+      {
+        title: '下单方式',
+        dataIndex: 'name',
+        key: 'name'
+      },
+      {
+        title: '站点类型',
         dataIndex: 'name',
         key: 'name'
       },
       {
         title: '状态',
+        dataIndex: 'name',
+        key: 'name'
+      },
+      {
+        title: '最近更新',
         dataIndex: 'name',
         key: 'name'
       },
@@ -65,9 +79,8 @@ class DriverOilCard extends Component {
         align: 'center',
         render: (text, record) => (
           <Space size='middle'>
-            <Button>充值</Button>
-            <Button>回收</Button>
-            <Button>设置</Button>
+            <a>编辑</a>
+            <a>详情</a>
           </Space>
         )
       }
@@ -80,38 +93,57 @@ class DriverOilCard extends Component {
     ]
     const searchList = [
       {
-        name: 'driverName',
-        label: '司机姓名',
+        name: 'stationName',
+        label: '站点名称',
         compName: 'Input'
       },
+
       {
-        name: 'phone',
-        label: '手机号',
-        compName: 'Input',
-        labelCol: {
-          style: {
-            width: 70
-          }
-        }
+        name: 'city',
+        label: '省市区',
+        compName: 'Cascader',
+        defaultValue: [],
+        options: list,
+        onChange: this.changeCity
       },
       {
-        name: 'carNum',
-        label: '车牌号',
-        compName: 'Input'
-      },
-      {
-        name: 'driverType',
-        label: '司机类型',
+        name: 'stationType',
+        label: '站点类型',
         compName: 'Select',
         optionList: [
           { id: '1', name: '全部' },
-          { id: '2', name: '自有' }
+          { id: '2', name: '加油站' },
+          { id: '3', name: '撬装' }
         ]
       },
       {
-        name: 'cardStatus',
-        label: '油卡状态',
-        compName: 'Input'
+        name: 'mode',
+        label: '开放模式',
+        compName: 'Select',
+        optionList: [
+          { id: '1', name: '全部' },
+          { id: '2', name: '加油站' },
+          { id: '3', name: '撬装' }
+        ]
+      },
+      {
+        name: 'supplier',
+        label: '供应商',
+        compName: 'Select',
+        optionList: [
+          { id: '1', name: '全部' },
+          { id: '2', name: '找油网' }
+        ]
+      },
+      {
+        name: 'stationStatus',
+        label: '站点状态',
+        compName: 'Select',
+        optionList: [
+          { id: '0', name: '全部' },
+          { id: '1', name: '上线' },
+          { id: '2', name: '下线' }
+        ]
       }
     ]
 
@@ -141,19 +173,20 @@ class DriverOilCard extends Component {
         name: '导出'
       }
     ]
+    const btnLayout={
+      span:24
+    }
     return (
       <div className='driverCardList'>
+       
         <CustomSearchForm
           searchList={searchList}
           onFinish={this.onFinish}
           onReset={this.onReset}
           btnList={btnList}
+          btnLayout={btnLayout}
         />
-        <div className='m20'>
-          <Button type='primary' value='large' icon={<PlusOutlined />}>
-            开卡
-          </Button>
-        </div>
+        <div className='m20 ' />
 
         <Table
           columns={columns}
@@ -165,6 +198,4 @@ class DriverOilCard extends Component {
   }
 }
 
-DriverOilCard.propTypes = {}
-
-export default connect(state => state, branchActions)(DriverOilCard)
+export default StationList

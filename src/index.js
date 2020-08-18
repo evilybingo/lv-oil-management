@@ -4,6 +4,7 @@ import './index.css'
 import AppRouter from './App'
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
+import 'moment/locale/zh-cn';
 //import * as serviceWorker from './serviceWorker'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'

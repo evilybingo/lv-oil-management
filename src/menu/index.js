@@ -4,7 +4,11 @@ import { MailOutlined } from '@ant-design/icons'
 import { Menu } from 'antd'
 import { list } from './config'
 import store from 'store'
-import { ROUTE_LIST, OPENKEY_LIST, ROOT_SUB_MENU_KEY } from '../router/config'
+import {
+  ROUTE_MENU_LIST,
+  OPENKEY_LIST,
+  ROOT_SUB_MENU_KEY
+} from '../router/config'
 const { SubMenu } = Menu
 
 class MenuComp extends Component {
@@ -18,7 +22,7 @@ class MenuComp extends Component {
       defaultSelectedKeys: OPENKEY_LIST[location.pathname] || []
     }
   }
-
+ 
   onOpenChange = openKeys => {
     const latestOpenKey = openKeys.find(
       key => this.state.openKeys.indexOf(key) === -1
@@ -33,8 +37,19 @@ class MenuComp extends Component {
   }
   changeMenu = openKeys => {
     store.set('curOpenKey', this.state.openKeys)
+
+    let paneList = ROUTE_MENU_LIST[openKeys.id]
+
+    let menuList = store.get('choosedMenuList') || []
+    const haved = menuList.some(menu => menu.url === paneList.url)
+    if (!haved) {
+      menuList.push(paneList)
+      store.set('choosedMenuList', menuList)
+    }
+
+    this.props.getMenuItem(menuList)
     this.props.history.replace({
-      pathname: ROUTE_LIST[openKeys.id],
+      pathname: ROUTE_MENU_LIST[openKeys.id].url,
       state: {
         curOpenKey: this.state.openKeys
       }

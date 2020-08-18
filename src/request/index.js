@@ -82,7 +82,7 @@ Axios.interceptors.response.use(
  * @param {Object} params:{method,url,data}
  */
 export default function request (url, { method = 'post', ...rest }) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     Axios.request({
       method,
       url,
@@ -96,8 +96,7 @@ export default function request (url, { method = 'post', ...rest }) {
         resolve(res.data)
       })
       .catch(err => {
-        message.error('系统异常')
-        console.log(err, 666)
+        console.log(err)
       })
   })
 }

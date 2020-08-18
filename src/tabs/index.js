@@ -1,48 +1,49 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Tabs } from 'antd'
-
+import store from 'store'
+import { BREAD_LIST } from '../router/config'
 const { TabPane } = Tabs
-
-const initialPanes = [
-  { title: 'Tab 1', content: 'Content of Tab 1', key: '1' },
-  { title: 'Tab 2', content: 'Content of Tab 2', key: '2' },
-  {
-    title: 'Tab 3',
-    content: 'Content of Tab 3',
-    key: '3',
-    closable: false
-  }
-]
-
 export default class CustomTabs extends React.Component {
   newTabIndex = 0
 
-  state = {
-    activeKey: initialPanes[0].key,
-    panes: initialPanes
+  constructor (props) {
+    super(props)
+    console.log(props)
+    let tit = BREAD_LIST[props.pathname]
+    if (!tit) {
+      this.state = {
+        panes: []
+      }
+      return
+    }
+    tit = tit[tit.length - 1]
+    let initialPanes = [{ url: props.pathname, title: tit }]
+    let choosedMenuList = store.get('choosedMenuList')
+    if (choosedMenuList && choosedMenuList.length) {
+      initialPanes = choosedMenuList
+    }
+    if (initialPanes.length === 1) {
+      initialPanes = [
+        {
+          ...initialPanes[0],
+          closable: false
+        }
+      ]
+    }
+    this.state = {
+      activeKey: props.pathname,
+      panes: initialPanes
+    }
   }
 
   onChange = activeKey => {
-    this.setState({ activeKey })
+    this.setState({ activeKey, remove: true }, () => {
+      this.props.history.push(activeKey)
+    })
   }
 
   onEdit = (targetKey, action) => {
     this[action](targetKey)
-  }
-
-  add = () => {
-    const { panes } = this.state
-    const activeKey = `newTab${this.newTabIndex++}`
-    const newPanes = [...panes]
-    newPanes.push({
-      title: 'New Tab',
-      content: 'Content of new Tab',
-      key: activeKey
-    })
-    this.setState({
-      panes: newPanes,
-      activeKey
-    })
   }
 
   remove = targetKey => {
@@ -50,39 +51,64 @@ export default class CustomTabs extends React.Component {
     let newActiveKey = activeKey
     let lastIndex
     panes.forEach((pane, i) => {
-      if (pane.key === targetKey) {
+      if (pane.url === targetKey) {
         lastIndex = i - 1
       }
     })
-    const newPanes = panes.filter(pane => pane.key !== targetKey)
+    const newPanes = panes.filter(pane => pane.url !== targetKey)
     if (newPanes.length && newActiveKey === targetKey) {
       if (lastIndex >= 0) {
-        newActiveKey = newPanes[lastIndex].key
+        newActiveKey = newPanes[lastIndex].url
       } else {
-        newActiveKey = newPanes[0].key
+        newActiveKey = newPanes[0].url
       }
     }
-    this.setState({
-      panes: newPanes,
-      activeKey: newActiveKey
-    })
+    store.set('choosedMenuList', newPanes)
+    this.setState(
+      {
+        panes: newPanes,
+        activeKey: newActiveKey,
+        remove: true
+      },
+      () => {
+        if (newPanes.length) {
+          this.props.history.push(newPanes[newPanes.length - 1].url)
+        }
+      }
+    )
   }
-
+  componentWillReceiveProps (nextProps) {
+    if (!this.state.remove) {
+      this.setState({
+        panes: nextProps.paneList,
+        activeKey: nextProps.pathname
+      })
+    } else {
+      this.setState({
+        remove: false
+      })
+    }
+  }
   render () {
     const { panes, activeKey } = this.state
     return (
-      <Tabs
-        type='editable-card'
-        onChange={this.onChange}
-        activeKey={activeKey}
-        onEdit={this.onEdit}
-      >
-        {panes.map(pane => (
-          <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
-            {pane.content}
-          </TabPane>
-        ))}
-      </Tabs>
+      <Fragment>
+        {panes.length && (
+          <Tabs
+            type='editable-card'
+            onChange={this.onChange}
+            hideAdd
+            activeKey={activeKey}
+            onEdit={this.onEdit}
+          >
+            {panes.map(pane => (
+              <TabPane tab={pane.title} key={pane.url} closable={pane.closable}>
+                {pane.content}
+              </TabPane>
+            ))}
+          </Tabs>
+        )}
+      </Fragment>
     )
   }
 }
