@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import moment from 'moment'
+//import moment from 'moment'
 import { Table } from 'antd'
 import branchActions from '../../action/operation/branch'
 import { CustomSearchForm } from '../../components'
@@ -24,12 +24,6 @@ class PriseInventory extends React.Component {
     }
 
     const changeCity = () => {}
-    const timeChange = e => {
-      console.log(moment(e).format('HH:mm'))
-    }
-    const dateChange = e => {
-      console.log(moment(e).format('YYYY-MM-DD'))
-    }
 
     const formLayout = {
       labelCol: {
@@ -95,11 +89,14 @@ class PriseInventory extends React.Component {
       {
         name: 'time',
         label: '时间',
-        compName: 'CustomTimePicker',
-        custom: true,
-        handlerFn: {
-          dateChange: dateChange,
-          timeChange: timeChange
+        compName: 'DatePicker',
+        compProps: {
+          style: {
+            width: '100%'
+          },
+          showTime: {
+            format: 'HH:mm'
+          }
         }
       },
       {
@@ -131,7 +128,7 @@ class PriseInventory extends React.Component {
         ...formLayout
       }
     ]
- 
+
     const pagination = {
       defaultCurrent: 1,
       current: this.state.curPage,

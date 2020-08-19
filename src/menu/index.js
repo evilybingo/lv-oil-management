@@ -22,7 +22,7 @@ class MenuComp extends Component {
       defaultSelectedKeys: OPENKEY_LIST[location.pathname] || []
     }
   }
- 
+
   onOpenChange = openKeys => {
     const latestOpenKey = openKeys.find(
       key => this.state.openKeys.indexOf(key) === -1
@@ -39,7 +39,9 @@ class MenuComp extends Component {
     store.set('curOpenKey', this.state.openKeys)
 
     let paneList = ROUTE_MENU_LIST[openKeys.id]
-
+    if (!paneList) {
+      return
+    }
     let menuList = store.get('choosedMenuList') || []
     const haved = menuList.some(menu => menu.url === paneList.url)
     if (!haved) {

@@ -11,7 +11,7 @@ class BranchList extends Component {
   onFinish = values => {
     console.log('Received values of form: ', values)
   }
-  onReset = () => { 
+  onReset = () => {
     console.log(999)
   }
   render () {
@@ -48,10 +48,10 @@ class BranchList extends Component {
         align: 'center',
         render: (text, record) => (
           <Space size='middle'>
-            <Button>充值</Button>
-            <Button>回收</Button>
-            <Button>流水</Button>
-            <Button>编辑</Button>
+            <span className='primary-color'>充值</span>
+            <span className='primary-color'>回收</span>
+            <span className='primary-color'>流水</span>
+            <span className='primary-color'>编辑</span>
           </Space>
         )
       }
@@ -86,16 +86,16 @@ class BranchList extends Component {
         name: 'adminName',
         label: '管理员',
         compName: 'Input',
-        labelCol:{
-          style:{
-            width:70
+        labelCol: {
+          style: {
+            width: 70
           }
         }
       }
     ]
-    const  btnLayout={
-      span:16
-   }
+    const btnLayout = {
+      span: 16
+    }
     const btnList = [
       {
         id: 'submit',
@@ -115,10 +115,10 @@ class BranchList extends Component {
         name: '导出'
       }
     ]
-  
+
     return (
       <div className='branchList'>
-         <CustomSearchForm
+        <CustomSearchForm
           searchList={searchList}
           onFinish={this.onFinish}
           onReset={this.onReset}

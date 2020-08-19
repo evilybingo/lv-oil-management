@@ -2,7 +2,7 @@ const branchInitState = {
   count: 0,
   list: {}
 }
-export function branchReducer (state = branchInitState, action) {
+export default function branchReducer (state = branchInitState, action) {
   switch (action.type) {
     case 'INCREMENT':
       return {

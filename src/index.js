@@ -4,7 +4,7 @@ import './index.css'
 import AppRouter from './App'
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
-import 'moment/locale/zh-cn';
+import 'moment/locale/zh-cn'
 //import * as serviceWorker from './serviceWorker'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
@@ -12,11 +12,11 @@ import configureStore from './store'
 const storeConfig = configureStore()
 ReactDOM.render(
   <ConfigProvider locale={zhCN}>
-    <BrowserRouter>
-      <Provider store={storeConfig}>
+    <Provider store={storeConfig}>
+      <BrowserRouter>
         <AppRouter />
-      </Provider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </Provider>
   </ConfigProvider>,
   document.getElementById('root')
 )

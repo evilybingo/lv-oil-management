@@ -79,8 +79,8 @@ class StationList extends Component {
         align: 'center',
         render: (text, record) => (
           <Space size='middle'>
-            <a>编辑</a>
-            <a>详情</a>
+            <span className='primary-color'>编辑</span>
+            <span className='primary-color'>详情</span>
           </Space>
         )
       }
@@ -173,12 +173,11 @@ class StationList extends Component {
         name: '导出'
       }
     ]
-    const btnLayout={
-      span:24
+    const btnLayout = {
+      span: 24
     }
     return (
       <div className='driverCardList'>
-       
         <CustomSearchForm
           searchList={searchList}
           onFinish={this.onFinish}

@@ -93,7 +93,7 @@ export default class CustomTabs extends React.Component {
     const { panes, activeKey } = this.state
     return (
       <Fragment>
-        {panes.length && (
+        {panes.length > 0 && (
           <Tabs
             type='editable-card'
             onChange={this.onChange}

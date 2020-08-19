@@ -1,7 +1,17 @@
 import React from 'react'
-import { Button, Form, Row, Col, Input, Select, Cascader } from 'antd'
+import {
+  Button,
+  Form,
+  Row,
+  Col,
+  Input,
+  Select,
+  Cascader,
+  DatePicker
+} from 'antd'
 import CustomTimePicker from '../CustomTimePicker'
 const { Option } = Select
+const { RangePicker } = DatePicker
 export default function CustomSearchForm ({
   searchList,
   onFinish,
@@ -25,7 +35,7 @@ export default function CustomSearchForm ({
       name: '重置'
     }
   ],
-  btnLayout={
+  btnLayout = {
     md: { span: 8 },
     sm: { pan: 12 },
     xs: { span: 24 }
@@ -39,13 +49,15 @@ export default function CustomSearchForm ({
     Input,
     Select,
     Cascader,
+    DatePicker,
+    RangePicker,
     CustomTimePicker
   }
   const onResetHandler = () => {
     form.resetFields()
     onReset()
   }
-  
+
   const rowLayout = {
     md: { span: 8 },
     lg: { pan: 24 },
@@ -56,7 +68,7 @@ export default function CustomSearchForm ({
     <Form onFinish={subHandler} form={form}>
       <Row gutter={rowLayout}>
         {searchList.map(
-          ({ compName, optionList, handlerFn, options, ...l }) => {
+          ({ compName, optionList, handlerFn, options, compProps, ...l }) => {
             const Comp = CompList[compName]
             return (
               <Col {...layout} key={l.name} style={{ padding: '0 24px' }}>
@@ -64,7 +76,7 @@ export default function CustomSearchForm ({
                   <Comp {...l} {...handlerFn} />
                 ) : (
                   <Form.Item {...l}>
-                    <Comp {...handlerFn} options={options}>
+                    <Comp {...handlerFn} {...compProps} options={options}>
                       {optionList &&
                         optionList.map(optionItem => {
                           return (

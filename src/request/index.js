@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from 'store'
 import { message } from 'antd'
+
 import { BASE_URL_LIST, CUR_ENV } from '../constants/api'
 
 export const baseURL = BASE_URL_LIST[CUR_ENV]
@@ -15,8 +16,16 @@ var Axios = axios.create({
   }
 })
 
-function outLogin (msg) {
+function outLogin (msg, dispatch) {
   message.error(msg)
+  //store.subscribe(() => console.log(store.getState(), 999))
+
+   dispatch({
+      type: 'TO_LOGIN',
+      status: 0
+    })
+
+  // window.location.href = '/login'
 }
 Axios.interceptors.request.use(
   config => {
@@ -30,59 +39,59 @@ Axios.interceptors.request.use(
   }
 )
 
-Axios.interceptors.response.use(
-  response => {
-    if (response.status === 200) {
-      return Promise.resolve(response)
-    } else {
-      return Promise.reject(response)
-    }
-  },
-  // 服务器状态码不是200的情况
-  error => {
-    if (error.response.status) {
-      switch (error.response.status) {
-        // 401: 未登录
-        // 未登录则跳转登录页面，并携带当前页面的路径
-        // 在登录成功后返回当前页面，这一步需要在登录页操作。
-        case 401:
-          outLogin('未登录，请重新登录', true)
-          break
-        // 403 token过期
-        // 登录过期对用户进行提示
-        // 清除本地token和清空vuex中token对象
-        // 跳转登录页面
-        case 402:
-          outLogin('登录过期，请重新登录', true)
+// Axios.interceptors.response.use(
+//   response => {
+//     if (response.status === 200) {
+//       return Promise.resolve(response)
+//     } else {
+//       return Promise.reject(response)
+//     }
+//   },
+//   // 服务器状态码不是200的情况
+//   error => {
+//     if (error.response.status) {
+//       switch (error.response.status) {
+//         // 401: 未登录
+//         // 未登录则跳转登录页面，并携带当前页面的路径
+//         // 在登录成功后返回当前页面，这一步需要在登录页操作。
+//         case 401:
+//           outLogin('未登录，请重新登录', true)
+//           break
+//         // 403 token过期
+//         // 登录过期对用户进行提示
+//         // 清除本地token和清空vuex中token对象
+//         // 跳转登录页面
+//         case 402:
+//           outLogin('登录过期，请重新登录', true)
 
-          break
-        case 403:
-          outLogin('登录过期，请重新登录', true)
-          break
+//           break
+//         case 403:
+//           outLogin('登录过期，请重新登录', true)
+//           break
 
-        // 404请求不存在
-        case 404:
-          message.error(error.config.url + ' 网络请求不存在')
-          break
+//         // 404请求不存在
+//         case 404:
+//           message.error(error.config.url + ' 网络请求不存在')
+//           break
 
-        case 502:
-          message.error('请求超时')
-          break
-        // 其他错误，直接抛出错误提示
-        default:
-          message.error(error.response.data.message)
-      }
-      return Promise.reject(error.response)
-    }
-  }
-)
+//         case 502:
+//           message.error('请求超时')
+//           break
+//         // 其他错误，直接抛出错误提示
+//         default:
+//           message.error(error.response.data.message)
+//       }
+//       return Promise.reject(error.response)
+//     }
+//   }
+// )
 
 /**
  *
  * @param {Object} params:{method,url,data}
  */
-export default function request (url, { method = 'post', ...rest }) {
-  return new Promise((resolve) => {
+export default function request (url, { method = 'post',dispatch, ...rest }) {
+  return new Promise(resolve => {
     Axios.request({
       method,
       url,
@@ -93,10 +102,41 @@ export default function request (url, { method = 'post', ...rest }) {
           message.error(res.data.msg || '系统异常')
           return
         }
+        console.log(res.data, 666)
         resolve(res.data)
       })
-      .catch(err => {
-        console.log(err)
+      .catch(error => {
+        switch (error.response.status) {
+          // 401: 未登录
+          // 未登录则跳转登录页面，并携带当前页面的路径
+          // 在登录成功后返回当前页面，这一步需要在登录页操作。
+          case 401:
+            outLogin('未登录，请重新登录', dispatch)
+            break
+          // 403 token过期
+          // 登录过期对用户进行提示
+          // 清除本地token和清空vuex中token对象
+          // 跳转登录页面
+          case 402:
+            outLogin('登录过期，请重新登录', dispatch)
+
+            break
+          case 403:
+            outLogin('登录过期，请重新登录', dispatch)
+            break
+
+          // 404请求不存在
+          case 404:
+            message.error(error.response.config.url + ' 网络请求不存在')
+            break
+
+          case 502:
+            message.error('请求超时')
+            break
+          // 其他错误，直接抛出错误提示
+          default:
+            message.error(error.response.data.message || '系统异常')
+        }
       })
   })
 }

@@ -22,6 +22,7 @@ class CustomTimePicker extends Component {
           <Col span={14}>
             <Form.Item labelCol={labelCol} name='date' label={label}>
               <DatePicker
+              showTime
                 name='date'
                 className='w100'
                 onChange={this.dateChange}

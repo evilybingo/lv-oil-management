@@ -1,12 +1,10 @@
 import React from 'react'
-import { connect } from 'react-redux'
+//import { connect } from 'react-redux'
 //import moment from 'moment'
-import { Table, Button } from 'antd'
-import branchActions from '../../action/operation/branch'
+import { Table, Space, Button } from 'antd'
 import { CustomSearchForm } from '../../components'
-import { list } from '../../constants/city'
-
-class PriceList extends React.Component {
+import { PlusOutlined } from '@ant-design/icons'
+class SystemUser extends React.Component {
   state = {
     curPage: 1
   }
@@ -23,56 +21,59 @@ class PriceList extends React.Component {
       console.log(999)
     }
 
-    const changeCity = () => {}
-   
-
-    const formLayout = {
-      labelCol: {
-        style: {
-          width: 68
-        }
-      }
-    }
     const columns = [
       {
-        title: '省份',
+        title: '姓名',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '市区',
+        title: '手机号',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '油品类型',
+        title: '邮箱地址',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '单位',
+        title: '登陆账号',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '生效时间',
+        title: '工作职务',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '失效时间',
+        title: '所属机构',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '数据来源',
+        title: '状态',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '创建时间',
+        title: '最近一次登陆时间',
         dataIndex: 'name',
         key: 'name'
+      },
+
+      {
+        title: '操作',
+        key: 'action',
+        width: 240,
+        align: 'center',
+        render: (text, record) => (
+          <Space size='middle'>
+            <span className='primary-color'>停用</span>
+            <span className='primary-color'>更多</span>
+          </Space>
+        )
       }
     ]
     const dataSource = [
@@ -83,34 +84,40 @@ class PriceList extends React.Component {
     ]
     const searchList = [
       {
-        name: 'time',
-        label: '生效时间',
-        compName: 'DatePicker',
-        compProps: {
-          style: {
-            width: '100%'
-          },
-          showTime: {
-            format: 'HH:mm:ss'
-          }
+        name: 'name',
+        label: '姓名',
+        compName: 'Input'
+      },
+      {
+        name: 'phone',
+        label: '手机号',
+        compName: 'Input',
+        labelCol:{
+            style:{
+                width:70
+            }
         }
       },
       {
-        name: 'oilType',
-        label: '油品类型',
-        compName: 'Select',
-        optionList: [{ id: '1', name: '全部' }]
+        name: 'account',
+        label: '登录账号',
+        compName: 'Input'
       },
 
       {
-        name: 'city',
-        label: '省市',
-        compName: 'Cascader',
-
-        defaultValue: [],
-        options: list,
-        onChange: changeCity,
-        ...formLayout
+        name: 'status',
+        label: '状态',
+        compName: 'Select',
+        optionList: [
+          { id: '0', name: '全部' },
+          { id: '1', name: '正常' },
+          { id: '2', name: '停用' }
+        ]
+      },
+      {
+        name: 'department',
+        label: '所属机构',
+        compName: 'Input'
       }
     ]
 
@@ -122,20 +129,16 @@ class PriceList extends React.Component {
       pageSize: 20
     }
 
-    const btnLayout = {
-      span: 24
-    }
     return (
       <div className='driverCardList'>
         <CustomSearchForm
           searchList={searchList}
           onFinish={onFinish}
           onReset={onReset}
-          btnLayout={btnLayout}
         />
         <div className='m20'>
-          <Button type='primary' value='large'>
-            导出
+          <Button type='primary' icon={<PlusOutlined />}>
+            新建
           </Button>
         </div>
 
@@ -149,6 +152,6 @@ class PriceList extends React.Component {
   }
 }
 
-PriceList.propTypes = {}
+SystemUser.propTypes = {}
 
-export default connect(state => state, branchActions)(PriceList)
+export default SystemUser

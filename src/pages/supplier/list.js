@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Table, Button ,Space} from 'antd'
+import { Table, Button, Space } from 'antd'
 import { CustomSearchForm } from '../../components'
 import branchActions from '../../action/operation/branch'
 import { PlusOutlined } from '@ant-design/icons'
@@ -86,8 +86,8 @@ class SupplierList extends Component {
         align: 'center',
         render: (text, record) => (
           <Space size='middle'>
-            <a>编辑</a>
-            <a>详情</a>
+            <span className='primary-color'>编辑</span>
+            <span className='primary-color'>详情</span>
           </Space>
         )
       }
@@ -151,7 +151,6 @@ class SupplierList extends Component {
           <Button type='primary' value='large' icon={<PlusOutlined />}>
             新增
           </Button>
-        
         </div>
 
         <Table

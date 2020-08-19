@@ -1,11 +1,10 @@
 import React from 'react'
 //import { connect } from 'react-redux'
 //import moment from 'moment'
-import { Table } from 'antd'
+import { Table, Card } from 'antd'
 import { CustomSearchForm } from '../../components'
-import { list } from '../../constants/city'
-
-class DriverConsume extends React.Component {
+import './company.less'
+class CurcompanyAccount extends React.Component {
   state = {
     curPage: 1
   }
@@ -22,81 +21,54 @@ class DriverConsume extends React.Component {
       console.log(999)
     }
 
-    const changeCity = () => {}
-
     const columns = [
       {
-        title: '订单编号',
+        title: '交易时间',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '司机',
+        title: '交易类型',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '手机号',
+        title: '交易金额(元)',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '车牌号',
+        title: '资金方向',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '所属省市',
+        title: '账户余额(元)',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '市区',
+        title: '交易对象',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '站点类型',
+        title: '车牌号码',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '用油类型',
+        title: '司机信息',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '单价',
+        title: '备注',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '加油量',
-        dataIndex: 'name',
-        key: 'name'
-      },
-      {
-        title: '加油金额',
-        dataIndex: 'name',
-        key: 'name'
-      },
-      {
-        title: '服务时间',
-        dataIndex: 'name',
-        key: 'name'
-      },
-      {
-        title: '所属机构',
-        dataIndex: 'name',
-        key: 'name'
-      },
-      {
-        title: '供应商',
-        dataIndex: 'name',
-        key: 'name'
-      },
-      {
-        title: '状态',
+        title: '操作人',
         dataIndex: 'name',
         key: 'name'
       }
@@ -109,46 +81,56 @@ class DriverConsume extends React.Component {
     ]
     const searchList = [
       {
+        name: 'tradeType',
+        label: '交易类型',
+        compName: 'Select',
+        optionList: [{ id: '1', name: '全部' }]
+      },
+      {
+        name: 'financeDre',
+        label: '资金方向',
+        compName: 'Select',
+        optionList: [
+          { id: '0', name: '全部' },
+          { id: '1', name: '收入' },
+          { id: '2', name: '支出' }
+        ]
+      },
+      {
         name: 'time',
-        label: '加油时间',
-        compName: 'RangePicker',
+        label: '交易时间',
+        compName: 'DatePicker',
         compProps: {
-          showTime: { format: 'HH:mm' },
           style: { width: '100%' },
-          format: 'YYYY-MM-DD HH:mm'
+          format: 'YYYY-MM-DD'
         }
       },
       {
-        name: 'driverName',
-        label: '司机姓名',
-        compName: 'Input'
+        name: 'tradeObject',
+        label: '交易对象',
+        compName: 'Input',
+        compProps: {
+          placeholder: '输入上级机构或油卡编号'
+        }
       },
 
       {
-        name: 'phone',
+        name: '车牌号码',
         label: '手机号',
-        compName: 'Input'
+        compName: 'Input',
+        labelCol: {
+          style: {
+            width: 68
+          }
+        }
       },
       {
         name: 'department',
         label: '机构名称',
-        compName: 'Input'
-      },
-
-      {
-        name: 'city',
-        label: '加油地点',
-        compName: 'Cascader',
-
-        defaultValue: [],
-        options: list,
-        onChange: changeCity
-      },
-      {
-        name: 'supplier',
-        label: '供应商',
-        compName: 'Select',
-        optionList: [{ id: '1', name: '全部' }]
+        compName: 'Input',
+        compProps: {
+          placeholder: '司机姓名或手机号'
+        }
       }
     ]
 
@@ -180,7 +162,10 @@ class DriverConsume extends React.Component {
     ]
     const btnLayout = { span: 24 }
     return (
-      <div className='driverCardList'>
+      <div className='CurcompanyAccount'>
+        <Card className='curAccountSum'>
+          账户可分配余额：5,998,382,146.07 元
+        </Card>
         <CustomSearchForm
           searchList={searchList}
           onFinish={onFinish}
@@ -200,6 +185,6 @@ class DriverConsume extends React.Component {
   }
 }
 
-DriverConsume.propTypes = {}
+CurcompanyAccount.propTypes = {}
 
-export default DriverConsume
+export default CurcompanyAccount

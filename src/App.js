@@ -3,6 +3,7 @@ import React from 'react'
 import './App.less'
 import MenuComp from './menu'
 import { Layout, Breadcrumb } from 'antd'
+
 import { withRouter } from 'react-router'
 import RouterWrapper from './router'
 import CustomTabs from './tabs'
@@ -20,15 +21,16 @@ class AppRouter extends React.Component {
     this.setState({ collapsed })
   }
   getMenuItem = menuList => {
- 
     this.setState({
-      paneList:menuList
+      paneList: menuList
     })
   }
   render () {
     const { history } = this.props
     const pathname = history.location.pathname
-
+    if (pathname === '/login') {
+      return <RouterWrapper />
+    }
     return (
       <div className='App'>
         <Layout style={{ minHeight: '100vh' }}>
@@ -59,7 +61,9 @@ class AppRouter extends React.Component {
                   history={history}
                   pathname={pathname}
                 />
-                <RouterWrapper />
+                <div className='mt10'>
+                  <RouterWrapper />
+                </div>
               </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>

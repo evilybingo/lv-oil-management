@@ -1,12 +1,12 @@
-import React from 'react'
-import { connect } from 'react-redux'
-//import moment from 'moment'
-import { Table, Button } from 'antd'
-import branchActions from '../../action/operation/branch'
-import { CustomSearchForm } from '../../components'
-import { list } from '../../constants/city'
 
-class PriceList extends React.Component {
+
+import React from 'react'
+//import { connect } from 'react-redux'
+//import moment from 'moment'
+import { Table, Space, Button } from 'antd'
+import { CustomSearchForm } from '../../components'
+
+class InvoiceRecord extends React.Component {
   state = {
     curPage: 1
   }
@@ -23,56 +23,67 @@ class PriceList extends React.Component {
       console.log(999)
     }
 
-    const changeCity = () => {}
-   
 
-    const formLayout = {
-      labelCol: {
-        style: {
-          width: 68
-        }
-      }
-    }
     const columns = [
+        
       {
-        title: '省份',
+        title: '申请时间',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '市区',
+        title: '发票类型',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '油品类型',
+        title: '开票金额',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '单位',
+        title: '申请人',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '生效时间',
+        title: '收件人',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '失效时间',
+        title: '开票状态',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '数据来源',
+        title: '发票号码',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '创建时间',
+        title: '寄送信息',
         dataIndex: 'name',
         key: 'name'
+      },
+      {
+        title: '供应商',
+        dataIndex: 'name',
+        key: 'name'
+      },
+     
+      {
+        title: '操作',
+        key: 'action',
+        width: 240,
+        align: 'center',
+        render: (text, record) => (
+          <Space size='middle'>
+            <span className='primary-color'>详情</span>
+            <span className='primary-color'>申请撤回</span>
+            <span className='primary-color'>查询物流</span>
+          </Space>
+        )
       }
     ]
     const dataSource = [
@@ -83,34 +94,29 @@ class PriceList extends React.Component {
     ]
     const searchList = [
       {
-        name: 'time',
-        label: '生效时间',
-        compName: 'DatePicker',
+        name: 'date',
+        label: '消费时间',
+        compName: 'RangePicker',
         compProps: {
-          style: {
-            width: '100%'
-          },
-          showTime: {
-            format: 'HH:mm:ss'
-          }
+          style: { width: '100%' }
         }
       },
       {
-        name: 'oilType',
-        label: '油品类型',
+        name: 'supplier',
+        label: '供应商',
+        compName: 'Input'
+      },
+      {
+        name: 'invoiceType',
+        label: '发票类型',
         compName: 'Select',
         optionList: [{ id: '1', name: '全部' }]
       },
-
       {
-        name: 'city',
-        label: '省市',
-        compName: 'Cascader',
-
-        defaultValue: [],
-        options: list,
-        onChange: changeCity,
-        ...formLayout
+        name: 'invoiceStatus',
+        label: '开票状态',
+        compName: 'Select',
+        optionList: [{ id: '1', name: '全部' }]
       }
     ]
 
@@ -121,10 +127,8 @@ class PriceList extends React.Component {
       onChange: this.changePage,
       pageSize: 20
     }
-
-    const btnLayout = {
-      span: 24
-    }
+   
+    const btnLayout = { span: 16 }
     return (
       <div className='driverCardList'>
         <CustomSearchForm
@@ -134,9 +138,7 @@ class PriceList extends React.Component {
           btnLayout={btnLayout}
         />
         <div className='m20'>
-          <Button type='primary' value='large'>
-            导出
-          </Button>
+            <Button type="primary">导出</Button>
         </div>
 
         <Table
@@ -149,6 +151,7 @@ class PriceList extends React.Component {
   }
 }
 
-PriceList.propTypes = {}
+InvoiceRecord.propTypes = {}
 
-export default connect(state => state, branchActions)(PriceList)
+export default InvoiceRecord
+
