@@ -171,10 +171,4 @@ export const routerConfig = [
     page: 'set/user',
     exact: true
   }
-  // {
-  //   name: 'LoginPage',
-  //   path: '/login',
-  //   page: 'login',
-  //   exact: true
-  // }
 ]

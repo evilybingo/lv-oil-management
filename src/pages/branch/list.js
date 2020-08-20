@@ -5,7 +5,8 @@ import branchActions from '../../action/operation/branch'
 import { PlusOutlined } from '@ant-design/icons'
 import { CustomSearchForm } from '../../components'
 class BranchList extends Component {
-  componentDidMount () {
+
+  componentWillMount(){
     this.props.getBranchList()
   }
   onFinish = values => {
