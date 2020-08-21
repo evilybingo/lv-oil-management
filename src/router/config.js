@@ -16,10 +16,12 @@ export const OPENKEY_LIST = {
 
 export const BREAD_LIST = {
   '/operation/oilcard': ['运营中心', '司机油卡'],
+  '/oilcard/open': ['运营中心', '司机油卡'],
   '/operation/branch': ['运营中心', '下属机构'],
   '/supplier/list': ['运营中心', '供应商管理', '油品供应商'],
   '/station/list': ['运营中心', '站点管理', '站点列表'],
   '/inventory/prise': ['运营中心', '库存管理', '撬装库存查询'],
+  '/invoice/record': ['财务中心', '开票申请', '开票记录'],
   '/price/list': ['运营中心', '价格管理', '发改委挂牌价'],
   '/price/safeguard': ['运营中心', '价格管理', '销售价维护'],
   '/driver/consume': ['运营中心', '统计查询', '消费记录'],
@@ -169,6 +171,12 @@ export const routerConfig = [
     name: 'SystemUser',
     path: '/set/user',
     page: 'set/user',
+    exact: true
+  },
+  {
+    name: 'OpenCard',
+    path: '/oilcard/open',
+    page: 'oilcard/open',
     exact: true
   }
 ]

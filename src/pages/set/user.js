@@ -92,10 +92,10 @@ class SystemUser extends React.Component {
         name: 'phone',
         label: '手机号',
         compName: 'Input',
-        labelCol:{
-            style:{
-                width:70
-            }
+        labelCol: {
+          style: {
+            width: 70
+          }
         }
       },
       {
@@ -117,7 +117,33 @@ class SystemUser extends React.Component {
       {
         name: 'department',
         label: '所属机构',
-        compName: 'Input'
+        compName: 'TreeSelect',
+        compProps: {
+          style: {
+            width: '100%'
+          },
+          dropdownStyle: { maxHeight: 400, overflow: 'auto' },
+          treeData:[
+            {
+              title: 'Node1',
+              value: '0-0',
+              children: [
+                {
+                  title: 'Child Node1',
+                  value: '0-0-1',
+                },
+                {
+                  title: 'Child Node2',
+                  value: '0-0-2',
+                },
+              ],
+            },
+            {
+              title: 'Node2',
+              value: '0-1',
+            },
+          ]
+        }
       }
     ]
 

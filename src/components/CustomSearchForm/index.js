@@ -7,9 +7,9 @@ import {
   Input,
   Select,
   Cascader,
-  DatePicker
+  DatePicker,
+  TreeSelect
 } from 'antd'
-import CustomTimePicker from '../CustomTimePicker'
 const { Option } = Select
 const { RangePicker } = DatePicker
 export default function CustomSearchForm ({
@@ -18,7 +18,7 @@ export default function CustomSearchForm ({
   onReset,
   layout = {
     md: { span: 8 },
-    sm: { pan: 12 },
+    sm: { span: 12 },
     xs: { span: 24 }
   },
   btnList = [
@@ -37,7 +37,7 @@ export default function CustomSearchForm ({
   ],
   btnLayout = {
     md: { span: 8 },
-    sm: { pan: 12 },
+    sm: { span: 12 },
     xs: { span: 24 }
   }
 }) {
@@ -51,7 +51,7 @@ export default function CustomSearchForm ({
     Cascader,
     DatePicker,
     RangePicker,
-    CustomTimePicker
+    TreeSelect
   }
   const onResetHandler = () => {
     form.resetFields()
@@ -60,7 +60,7 @@ export default function CustomSearchForm ({
 
   const rowLayout = {
     md: { span: 8 },
-    lg: { pan: 24 },
+    lg: { span: 24 },
     xs: { span: 48 }
   }
 

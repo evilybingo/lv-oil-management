@@ -1,9 +1,10 @@
 import axios from 'axios'
 import store from 'store'
 import { message } from 'antd'
-import { delay } from '../utils/common'
+
 import { BASE_URL_LIST, CUR_ENV } from '../constants/api'
-import appMain from '../index'
+import { REQUEST_LOADING } from '../constants/namespace'
+
 export const baseURL = BASE_URL_LIST[CUR_ENV]
 
 var Axios = axios.create({
@@ -16,11 +17,13 @@ var Axios = axios.create({
   }
 })
 
-async function outLogin (msg) {
+async function outLogin (msg, dispatch) {
   message.error(msg)
   store.remove('token')
-  window.location = '/login'
-  
+  dispatch({
+    type: 'TO_LOGIN',
+    status: 0
+  })
 }
 Axios.interceptors.request.use(
   config => {
@@ -38,7 +41,14 @@ Axios.interceptors.request.use(
  *
  * @param {Object} params:{method,url,data}
  */
-export default function request (url, { method = 'post', ...rest }) {
+export default function request (
+  { url, dispatchType = REQUEST_LOADING, method = 'post', ...rest },
+  dispatch
+) {
+  dispatch({
+    type: dispatchType,
+    loading: true
+  })
   return new Promise(resolve => {
     Axios.request({
       method,
@@ -46,6 +56,10 @@ export default function request (url, { method = 'post', ...rest }) {
       data: rest
     })
       .then(res => {
+        dispatch({
+          type: dispatchType,
+          loading: false
+        })
         if (res.data.err !== 0) {
           message.error(res.data.msg || '系统异常')
           return
@@ -54,13 +68,17 @@ export default function request (url, { method = 'post', ...rest }) {
         resolve({ data: res.data, code: 200 })
       })
       .catch(error => {
+        dispatch({
+          type: dispatchType,
+          loading: false
+        })
         switch (error.response.status) {
           // 401: 未登录
           // 未登录则跳转登录页面，并携带当前页面的路径
           // 在登录成功后返回当前页面，这一步需要在登录页操作。
           case 401:
             resolve({ code: 401 })
-            outLogin('未登录，请重新登录')
+            outLogin('未登录，请重新登录', dispatch)
             break
           // 403 token过期
           // 登录过期对用户进行提示
@@ -68,12 +86,12 @@ export default function request (url, { method = 'post', ...rest }) {
           // 跳转登录页面
           case 402:
             resolve({ code: 401 })
-            outLogin('登录过期，请重新登录')
+            outLogin('登录过期，请重新登录', dispatch)
 
             break
           case 403:
             resolve({ code: 401 })
-            outLogin('登录过期，请重新登录')
+            outLogin('登录过期，请重新登录', dispatch)
             break
 
           // 404请求不存在

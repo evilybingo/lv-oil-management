@@ -98,14 +98,15 @@ class InvoiceRecord extends React.Component {
         label: '消费时间',
         compName: 'RangePicker',
         compProps: {
-          style: { width: '100%' }
+          style: { width: '100%' },
+          showTime:true
         }
       },
       {
         name: 'supplier',
         label: '供应商',
         compName: 'Input'
-      },
+    },
       {
         name: 'invoiceType',
         label: '发票类型',

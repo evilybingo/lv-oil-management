@@ -1,13 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import './App.less'
-import MenuComp from './menu'
+import {CustomMenu} from './components'
 import { Layout, Breadcrumb } from 'antd'
 import { Route, Redirect } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import LoginPage from './pages/login'
 import RouterWrapper from './router'
-import CustomTabs from './tabs'
+import {CustomTabs} from './components'
 import { BREAD_LIST } from './router/config'
 
 const { Header, Content, Footer, Sider } = Layout
@@ -52,9 +52,7 @@ class AppRouter extends React.Component {
   render () {
     const { history, loginStatus } = this.props
     const pathname = history.location.pathname
-    // if (loginStatus === 0) {
-    //   return <Route path='/login' component={LoginPage}></Route>
-    // }
+   
     return (
       <PrivateRoute loginStatus={loginStatus}>
         <div className='App'>
@@ -65,7 +63,7 @@ class AppRouter extends React.Component {
               onCollapse={this.onCollapse}
             >
               <div className='logo' />
-              <MenuComp history={history} getMenuItem={this.getMenuItem} />
+              <CustomMenu history={history} getMenuItem={this.getMenuItem} />
             </Sider>
             <Layout className='site-layout'>
               <Header className='site-layout-background'>

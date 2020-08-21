@@ -21,6 +21,9 @@ class DriverOilCard extends Component {
       curPage: page
     })
   }
+  openCard = () => {
+    this.props.history.replace('/oilcard/open')
+  }
   render () {
     const columns = [
       {
@@ -150,7 +153,12 @@ class DriverOilCard extends Component {
           btnList={btnList}
         />
         <div className='m20'>
-          <Button type='primary' value='large' icon={<PlusOutlined />}>
+          <Button
+            type='primary'
+            value='large'
+            icon={<PlusOutlined />}
+            onClick={this.openCard}
+          >
             开卡
           </Button>
         </div>
