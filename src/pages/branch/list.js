@@ -4,15 +4,22 @@ import { Table, Space, Button } from 'antd'
 import branchActions from '../../action/operation/branch'
 import { PlusOutlined } from '@ant-design/icons'
 import { CustomSearchForm } from '../../components'
+import { setMenuList } from '../../utils/common'
 class BranchList extends Component {
-  componentDidMount () {
+
+  componentWillMount(){
     this.props.getBranchList()
   }
   onFinish = values => {
     console.log('Received values of form: ', values)
   }
-  onReset = () => { 
+  onReset = () => {
     console.log(999)
+  }
+  addBranch = () => {
+    const menus = setMenuList({ url: '/branch/create', title: '新增机构' })
+    this.props.history.replace('/branch/create')
+    this.props.getMenuItem(menus)
   }
   render () {
     const columns = [
@@ -48,10 +55,10 @@ class BranchList extends Component {
         align: 'center',
         render: (text, record) => (
           <Space size='middle'>
-            <Button>充值</Button>
-            <Button>回收</Button>
-            <Button>流水</Button>
-            <Button>编辑</Button>
+            <span className='primary-color cursor-pointer'>充值</span>
+            <span className='primary-color cursor-pointer'>回收</span>
+            <span className='primary-color cursor-pointer'>流水</span>
+            <span className='primary-color cursor-pointer'>编辑</span>
           </Space>
         )
       }
@@ -86,16 +93,16 @@ class BranchList extends Component {
         name: 'adminName',
         label: '管理员',
         compName: 'Input',
-        labelCol:{
-          style:{
-            width:70
+        labelCol: {
+          style: {
+            width: 70
           }
         }
       }
     ]
-    const  btnLayout={
-      span:16
-   }
+    const btnLayout = {
+      span: 16
+    }
     const btnList = [
       {
         id: 'submit',
@@ -115,10 +122,10 @@ class BranchList extends Component {
         name: '导出'
       }
     ]
-  
+
     return (
       <div className='branchList'>
-         <CustomSearchForm
+        <CustomSearchForm
           searchList={searchList}
           onFinish={this.onFinish}
           onReset={this.onReset}
@@ -126,7 +133,7 @@ class BranchList extends Component {
           btnLayout={btnLayout}
         />
         <div className='m20'>
-          <Button type='primary' value='large' icon={<PlusOutlined />}>
+          <Button type='primary' value='large' icon={<PlusOutlined />} onClick={this.addBranch}>
             新增
           </Button>
         </div>

@@ -1,14 +1,10 @@
 import React from 'react'
-import { connect } from 'react-redux'
+//import { connect } from 'react-redux'
 //import moment from 'moment'
-import { Table } from 'antd'
-import branchActions from '../../action/operation/branch'
+import { Table, Space } from 'antd'
 import { CustomSearchForm } from '../../components'
-import { list } from '../../constants/city'
-/**
- * 销售价维护
- */
-class PriceSafeguard extends React.Component {
+
+class FinanceBill extends React.Component {
   state = {
     curPage: 1
   }
@@ -25,70 +21,90 @@ class PriceSafeguard extends React.Component {
       console.log(999)
     }
 
-    const changeCity = () => {}
 
-    const formLayout = {
-      labelCol: {
-        style: {
-          width: 68
-        }
-      }
-    }
     const columns = [
       {
-        title: '站点名称',
+        title: '对账单号',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '油品类型',
+        title: '账单类型',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '结算价',
+        title: '供应商名称',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '销售价',
+        title: '账单开始时间',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '发改委价',
+        title: '账单结束时间',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '枪标价',
+        title: '本期消费',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '单位',
+        title: '返利消费',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '所属供应商',
+        title: '现金消费',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '省市',
+        title: '授信消费',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '市区',
+        title: '调整金额',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '更新时间',
+        title: '应付总额',
         dataIndex: 'name',
         key: 'name'
+      },
+      {
+        title: '已付金额',
+        dataIndex: 'name',
+        key: 'name'
+      },
+      {
+        title: '账单状态',
+        dataIndex: 'name',
+        key: 'name'
+      },
+      {
+        title: '支付状态',
+        dataIndex: 'name',
+        key: 'name'
+      },
+      {
+        title: '操作',
+        key: 'action',
+        width: 240,
+        align: 'center',
+        render: (text, record) => (
+          <Space size='middle'>
+            <span className='primary-color'>确认账单</span>
+            <span className='primary-color'>调整账单</span>
+            <span className='primary-color'>申请付款</span>
+          </Space>
+        )
       }
     ]
     const dataSource = [
@@ -99,61 +115,29 @@ class PriceSafeguard extends React.Component {
     ]
     const searchList = [
       {
-        name: 'oilType',
-        label: '油品类型',
-        compName: 'Select',
-        optionList: [{ id: '1', name: '全部' }]
-      },
-
-      {
-        name: 'stationName',
-        label: '站点名称',
-        compName: 'Input'
-      },
-      {
-        name: 'city',
-        label: '省市',
-        compName: 'Cascader',
-
-        defaultValue: [],
-        options: list,
-        onChange: changeCity,
-        ...formLayout
-      },
-      {
-        name: 'stationType',
-        label: '站点类型',
-        compName: 'Select',
-        optionList: [{ id: '1', name: '全部' }]
+        name: 'date',
+        label: '账单时间',
+        compName: 'RangePicker',
+        compProps: {
+          style: { width: '100%' }
+        }
       },
       {
         name: 'supplier',
-        label: '供应商',
+        label: '供应商名称',
+        compName: 'Input'
+      },
+      {
+        name: 'billStatus',
+        label: '账单状态',
         compName: 'Select',
-        labelCol: {
-          style: {
-            width: 70
-          }
-        },
         optionList: [{ id: '1', name: '全部' }]
       },
       {
-        name: 'time',
-        label: '时间',
-        compName: 'DatePicker',
-        compProps: {
-          style: {
-            width: '100%'
-          },
-          showTime: {
-            format: 'HH:mm:ss'
-          }
-        },
-        labelCol: {
-          style: {
-            width: 68
-          }
-        }
+        name: 'payStatus',
+        label: '支付状态',
+        compName: 'Select',
+        optionList: [{ id: '1', name: '全部' }]
       }
     ]
 
@@ -164,9 +148,8 @@ class PriceSafeguard extends React.Component {
       onChange: this.changePage,
       pageSize: 20
     }
-    const btnLayout = {
-      span: 24
-    }
+   
+    const btnLayout = { span: 16 }
     return (
       <div className='driverCardList'>
         <CustomSearchForm
@@ -187,6 +170,6 @@ class PriceSafeguard extends React.Component {
   }
 }
 
-PriceSafeguard.propTypes = {}
+FinanceBill.propTypes = {}
 
-export default connect(state => state, branchActions)(PriceSafeguard)
+export default FinanceBill

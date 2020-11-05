@@ -9,4 +9,4 @@ export const BASE_URL_LIST = {
   test: 'https://test.app.51zhaoyou.com/app'
 }
 
-export const API_LIST='/v4/driver/oilbean/oilBeanActivityPecialArea'
+export const API_LIST='/v4/driver/index/userFavInfo'

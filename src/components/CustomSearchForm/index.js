@@ -1,14 +1,24 @@
 import React from 'react'
-import { Button, Form, Row, Col, Input, Select, Cascader } from 'antd'
-import CustomTimePicker from '../CustomTimePicker'
+import {
+  Button,
+  Form,
+  Row,
+  Col,
+  Input,
+  Select,
+  Cascader,
+  DatePicker,
+  TreeSelect
+} from 'antd'
 const { Option } = Select
+const { RangePicker } = DatePicker
 export default function CustomSearchForm ({
   searchList,
   onFinish,
   onReset,
   layout = {
     md: { span: 8 },
-    sm: { pan: 12 },
+    sm: { span: 12 },
     xs: { span: 24 }
   },
   btnList = [
@@ -25,9 +35,9 @@ export default function CustomSearchForm ({
       name: '重置'
     }
   ],
-  btnLayout={
+  btnLayout = {
     md: { span: 8 },
-    sm: { pan: 12 },
+    sm: { span: 12 },
     xs: { span: 24 }
   }
 }) {
@@ -39,16 +49,18 @@ export default function CustomSearchForm ({
     Input,
     Select,
     Cascader,
-    CustomTimePicker
+    DatePicker,
+    RangePicker,
+    TreeSelect
   }
   const onResetHandler = () => {
     form.resetFields()
     onReset()
   }
-  
+
   const rowLayout = {
     md: { span: 8 },
-    lg: { pan: 24 },
+    lg: { span: 24 },
     xs: { span: 48 }
   }
 
@@ -56,7 +68,7 @@ export default function CustomSearchForm ({
     <Form onFinish={subHandler} form={form}>
       <Row gutter={rowLayout}>
         {searchList.map(
-          ({ compName, optionList, handlerFn, options, ...l }) => {
+          ({ compName, optionList, handlerFn, options, compProps, ...l }) => {
             const Comp = CompList[compName]
             return (
               <Col {...layout} key={l.name} style={{ padding: '0 24px' }}>
@@ -64,7 +76,7 @@ export default function CustomSearchForm ({
                   <Comp {...l} {...handlerFn} />
                 ) : (
                   <Form.Item {...l}>
-                    <Comp {...handlerFn} options={options}>
+                    <Comp {...handlerFn} {...compProps} options={options}>
                       {optionList &&
                         optionList.map(optionItem => {
                           return (

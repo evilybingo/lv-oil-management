@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Tabs } from 'antd'
 import store from 'store'
-import { BREAD_LIST } from '../router/config'
+import { BREAD_LIST } from '../../router/config'
 const { TabPane } = Tabs
 export default class CustomTabs extends React.Component {
   newTabIndex = 0
@@ -38,7 +38,7 @@ export default class CustomTabs extends React.Component {
 
   onChange = activeKey => {
     this.setState({ activeKey, remove: true }, () => {
-      this.props.history.push(activeKey)
+      this.props.history.replace(activeKey)
     })
   }
 
@@ -72,7 +72,7 @@ export default class CustomTabs extends React.Component {
       },
       () => {
         if (newPanes.length) {
-          this.props.history.push(newPanes[newPanes.length - 1].url)
+          this.props.history.replace(newPanes[newPanes.length - 1].url)
         }
       }
     )
@@ -93,7 +93,7 @@ export default class CustomTabs extends React.Component {
     const { panes, activeKey } = this.state
     return (
       <Fragment>
-        {panes.length && (
+        {panes.length > 0 && (
           <Tabs
             type='editable-card'
             onChange={this.onChange}
